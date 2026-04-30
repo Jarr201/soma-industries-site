@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <defs>
+    <linearGradient id="borderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#7B5EA7"/>
+      <stop offset="100%" style="stop-color:#4ADE80"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Outer hexagon border -->
+  <polygon
+    points="60,4 111,32 111,88 60,116 9,88 9,32"
+    fill="#0A0A18"
+    stroke="url(#borderGrad)"
+    stroke-width="2.5"
+  />
+
+  <!-- Inner subtle hex -->
+  <polygon
+    points="60,14 101,37 101,83 60,106 19,83 19,37"
+    fill="none"
+    stroke="rgba(123,94,167,0.2)"
+    stroke-width="1"
+  />
+
+  <!-- SI Text -->
+  <text
+    x="60"
+    y="73"
+    text-anchor="middle"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-size="38"
+    font-weight="700"
+    letter-spacing="3"
+    fill="#EEEEF5"
+    filter="url(#glow)"
+  >SI</text>
+
+  <!-- Bottom label -->
+  <text
+    x="60"
+    y="94"
+    text-anchor="middle"
+    font-family="Arial, sans-serif"
+    font-size="6.5"
+    font-weight="400"
+    letter-spacing="3.5"
+    fill="#4ADE80"
+  >SOMA IND.</text>
+</svg>

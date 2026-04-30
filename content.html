@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Content Hub — Soma Industries LLC</title>
+  <meta name="description" content="Watch, follow, and connect with Soma Industries — YouTube videos, Twitch livestreams, and social media content." />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .live-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-family: var(--font-ui);
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #FF4444;
+      background: rgba(255,68,68,0.1);
+      border: 1px solid rgba(255,68,68,0.25);
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+    }
+    .live-indicator::before {
+      content: '●';
+      font-size: 0.45rem;
+      animation: blink 1.2s ease-in-out infinite;
+    }
+    .schedule-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 10px;
+      margin-top: 28px;
+    }
+    .schedule-day {
+      background: var(--bg-card);
+      border: 1px solid var(--border-p);
+      border-radius: 5px;
+      padding: 14px 8px;
+      text-align: center;
+      font-family: var(--font-ui);
+    }
+    .schedule-day .day-name {
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--silver-dim);
+      margin-bottom: 8px;
+    }
+    .schedule-day .day-status {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--muted);
+    }
+    .schedule-day.live-day {
+      border-color: var(--purple-light);
+      background: var(--purple-faint);
+    }
+    .schedule-day.live-day .day-status {
+      color: var(--purple-light);
+    }
+    .latest-videos {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 28px;
+    }
+    .video-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-p);
+      border-radius: 6px;
+      overflow: hidden;
+      transition: all 0.3s var(--ease);
+      cursor: pointer;
+    }
+    .video-card:hover {
+      border-color: var(--purple-light);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 30px rgba(123,94,167,0.2);
+    }
+    .video-thumb {
+      height: 150px;
+      background: linear-gradient(135deg, #1a0808, #2d0a0a);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      position: relative;
+    }
+    .video-thumb::after {
+      content: '▶';
+      position: absolute;
+      font-size: 1.4rem;
+      color: rgba(255,255,255,0.8);
+      background: rgba(0,0,0,0.5);
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-left: 4px;
+    }
+    .video-body { padding: 16px 18px; }
+    .video-body h4 { color: var(--white); font-size: 0.9rem; margin-bottom: 6px; }
+    .video-body p  { font-size: 0.78rem; color: var(--silver-dim); }
+    @media (max-width: 768px) {
+      .schedule-grid { grid-template-columns: repeat(4, 1fr); }
+      .latest-videos { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 480px) {
+      .latest-videos { grid-template-columns: 1fr; }
+      .schedule-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="site-nav" id="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-soma">SOMA</span>
+        <span class="logo-industries">Industries LLC</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="giveaways.html">Giveaways</a></li>
+        <li><a href="community.html">Community</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="content.html">Content</a></li>
+        <li><a href="contact.html" class="nav-cta">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Page Hero -->
+  <section class="page-hero section-sm">
+    <div class="hex-bg"></div>
+    <div class="container page-hero-content">
+      <span class="section-label">Watch. Learn. Connect.</span>
+      <h1>Content<br><span class="glow-green">Hub</span></h1>
+      <div class="divider"></div>
+      <p style="max-width:560px; font-size:1.05rem;">
+        From design tutorials and business talk to live creative sessions — all the content 
+        in one place. Subscribe, follow, and join the community.
+      </p>
+    </div>
+  </section>
+
+  <!-- YouTube Section -->
+  <section class="section embed-section" style="background:var(--bg-0); padding-top:40px;">
+    <div class="container">
+      <span class="section-label">YouTube</span>
+      <h2>Latest <span class="glow-purple">Videos</span></h2>
+      <div class="divider"></div>
+
+      <!-- 
+        YouTube embed — reactivate when you have public videos uploaded.
+        Your uploads playlist ID is: UUXWdVEO6__bSZBTEDieTrSA
+        (Channel ID UCXWdVEO6__bSZBTEDieTrSA with UC → UU)
+        
+        To activate, replace the .embed-placeholder div below with:
+        <iframe width="100%" height="100%"
+          src="https://www.youtube.com/embed/videoseries?list=UUXWdVEO6__bSZBTEDieTrSA"
+          frameborder="0" allow="accelerometer; autoplay; clipboard-write;
+          encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+        </iframe>
+      -->
+      <div class="youtube-embed-wrap reveal">
+        <div class="embed-placeholder">
+          <span class="embed-placeholder-icon">▶️</span>
+          <span>Videos Coming Soon</span>
+          <span style="font-size:0.7rem; opacity:0.7; margin-top:6px;">Subscribe to be notified when content drops</span>
+        </div>
+      </div>
+
+      <!-- Latest video cards -->
+      <!-- <div class="latest-videos reveal">
+        <div class="video-card">
+          <div class="video-thumb">🎨</div>
+          <div class="video-body">
+            <h4>How to Build a Brand Identity From Scratch</h4>
+            <p>Step-by-step walkthrough of the brand identity process — from discovery to final files.</p>
+          </div>
+        </div>
+        <div class="video-card">
+          <div class="video-thumb">💡</div>
+          <div class="video-body">
+            <h4>5 Websites Every Black Business Owner Needs to Know</h4>
+            <p>Free tools and resources for entrepreneurs who are building lean but want to look big.</p>
+          </div>
+        </div>
+        <div class="video-card">
+          <div class="video-thumb">🌐</div>
+          <div class="video-body">
+            <h4>Building a Website on a Budget — Full Tutorial</h4>
+            <p>A complete guide to getting a professional web presence without spending a fortune.</p>
+          </div>
+        </div>
+      </div> -->
+
+      <div style="text-align:center; margin-top:32px;">
+        <a href="https://www.youtube.com/@HailKingSoma" target="_blank" rel="noopener" class="btn btn-ghost">
+          Subscribe on YouTube →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Twitch Section -->
+  <section class="section embed-section" style="background:var(--bg-1);">
+    <div class="container">
+      <span class="section-label">Twitch</span>
+      <h2>Live <span class="glow-purple">Streams</span></h2>
+      <div class="divider"></div>
+
+      <div style="display:grid; grid-template-columns: 1.6fr 1fr; gap:28px; align-items:start;" class="reveal">
+        <!-- Twitch embed placeholder -->
+        <div class="twitch-embed-wrap">
+          <iframe
+            src="https://player.twitch.tv/?channel=hailkingsoma&parent=somaindustries.org&parent=www.somaindustries.org&parent=localhost&parent=127.0.0.1"
+            height="100%" width="100%"
+            allowfullscreen
+            frameborder="0"
+            scrolling="no"
+            allow="autoplay; fullscreen">
+          </iframe>
+        </div>
+
+        <div>
+          <div class="live-indicator">Stream Schedule</div>
+          <p style="margin-bottom:16px; font-size:0.9rem;">
+            Live gameplay and community hangouts. 
+            Come through and kick it with us!
+          </p>
+
+          <!--🟣 Live ball-->
+          <div class="schedule-grid">
+            <div class="schedule-day"><div class="day-name">Sun</div><div class="day-status">Off</div></div>
+            <div class="schedule-day"><div class="day-name">Mon</div><div class="day-status">Off</div></div>
+            <div class="schedule-day"><div class="day-name">Tue</div><div class="day-status">Off</div></div>
+            <div class="schedule-day"><div class="day-name">Wed</div><div class="day-status">Off</div></div>
+            <div class="schedule-day"><div class="day-name">Thu</div><div class="day-status">Off</div></div>
+            <div class="schedule-day"><div class="day-name">Fri</div><div class="day-status">Off</div></div>
+            <div class="schedule-day"><div class="day-name">Sat</div><div class="day-status">Off</div></div>
+          </div>
+
+          <div style="margin-top:28px;">
+            <a href="https://www.twitch.tv/hailkingsoma" target="_blank" rel="noopener" class="btn btn-ghost" style="width:100%; justify-content:center;">
+              Follow on Twitch →
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Social Media -->
+  <section class="section" style="background:var(--bg-0);">
+    <div class="container">
+      <div class="reveal" style="text-align:center; margin-bottom:48px;">
+        <span class="section-label" style="justify-content:center;">Socials</span>
+        <h2>Stay <span class="glow-green">Connected</span></h2>
+        <div class="divider" style="margin:20px auto 0;"></div>
+      </div>
+
+      <div class="social-links-grid reveal" style="grid-template-columns: repeat(3, 1fr);">
+        <a href="https://www.youtube.com/@HailKingSoma" target="_blank" rel="noopener" class="social-link-card">
+          <span class="icon">📺</span>
+          <h4>YouTube</h4>
+          <p>Gameplay &amp; Vibes</p>
+        </a>
+        <a href="https://www.twitch.tv/hailkingsoma" target="_blank" rel="noopener" class="social-link-card">
+          <span class="icon">🎮</span>
+          <h4>Twitch</h4>
+          <p>Live sessions &amp; community streams</p>
+        </a>
+        <a href="https://bsky.app/profile/somacorp.co" target="_blank" rel="noopener" class="social-link-card">
+          <span class="icon">🦋</span>
+          <h4>Bluesky</h4>
+          <p>Thoughts, threads &amp; community</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Strip -->
+  <section class="cta-strip">
+    <div class="container">
+      <h2>Want to be featured?</h2>
+      <p>If you're a business owner interested in a brand spotlight or collab, reach out. The community is the content.</p>
+      <a href="contact.html" class="btn btn-primary">Reach Out →</a>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="nav-logo" style="display:inline-flex;">
+            <span class="logo-soma">SOMA</span>
+            <span class="logo-industries">Industries LLC</span>
+          </a>
+          <p>Empowering Black businesses and building a community through Faith.</p>
+          <div class="footer-faith">Built on Faith. Driven by Purpose.</div>
+        </div>
+        <div class="footer-col">
+          <h4>Navigate</h4>
+                    <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="giveaways.html">Giveaways</a></li>
+            <li><a href="community.html">Community</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="content.html">Content Hub</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Community</h4>
+          <ul>
+            <li><a href="giveaways.html">Giveaways</a></li>
+            <li><a href="community.html">Fan Art</a></li>
+            <li><a href="community.html">Resources</a></li>
+            <li><a href="contact.html">Submit a Business</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Connect</h4>
+          <div class="footer-socials">
+            <a href="https://www.youtube.com/@HailKingSoma" target="_blank" rel="noopener" class="social-btn" title="YouTube">YT</a>
+            <a href="https://www.twitch.tv/hailkingsoma" target="_blank" rel="noopener" class="social-btn" title="Twitch">TW</a>
+            <a href="https://bsky.app/profile/somacorp.co" target="_blank" rel="noopener" class="social-btn" title="Bluesky">BSky</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2025 Soma Industries LLC. All rights reserved.</span>
+        <span style="color:var(--muted);">✝ Phil. 4:13</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="nav.js"></script>
+</body>
+</html>

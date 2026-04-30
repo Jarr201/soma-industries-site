@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Community — Soma Industries LLC</title>
+  <meta name="description" content="The Soma Industries community hub — Black nerds welcome. Fan art, resources, giveaways, and a space built for you." />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ── Community-specific styles ── */
+
+    /* Welcome banner */
+    .community-welcome {
+      background: linear-gradient(135deg, rgba(123,94,167,0.1), rgba(74,222,128,0.07));
+      border: 1px solid var(--border-p);
+      border-radius: 10px;
+      padding: 40px 44px;
+      margin-bottom: 64px;
+      position: relative;
+      overflow: hidden;
+    }
+    .community-welcome::before {
+      content: '';
+      position: absolute; top:0; left:0; right:0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--purple), var(--green));
+    }
+    .community-welcome-inner {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 32px;
+      align-items: center;
+    }
+    .welcome-vibes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+    .vibe-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      font-family: var(--font-ui);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      border-radius: 20px;
+      border: 1px solid var(--border-p);
+      background: var(--bg-card);
+      color: var(--silver);
+      transition: all 0.25s;
+    }
+    .vibe-tag:hover {
+      border-color: var(--green);
+      color: var(--green);
+      box-shadow: 0 0 10px var(--green-faint);
+    }
+    .welcome-emoji-stack {
+      font-size: 3.5rem;
+      line-height: 1.2;
+      text-align: center;
+      user-select: none;
+    }
+
+    /* Fan art section */
+    .fanart-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-top: 36px;
+    }
+    .fanart-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-p);
+      border-radius: 8px;
+      overflow: hidden;
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      transition: all 0.3s var(--ease);
+      cursor: pointer;
+    }
+    .fanart-card:hover {
+      border-color: var(--purple-light);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 30px rgba(123,94,167,0.2);
+    }
+    .fanart-card.empty {
+      border-style: dashed;
+      border-color: var(--muted);
+      flex-direction: column;
+      gap: 8px;
+    }
+    .fanart-card.empty:hover {
+      border-color: var(--purple-light);
+      box-shadow: 0 0 20px var(--purple-faint);
+    }
+    .fanart-placeholder-icon { font-size: 1.8rem; opacity: 0.4; }
+    .fanart-placeholder-text {
+      font-family: var(--font-ui);
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .fanart-submit-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-g);
+      border-radius: 10px;
+      padding: 40px;
+      text-align: center;
+      margin-top: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+    .fanart-submit-box::before {
+      content: '';
+      position: absolute; top:0; left:0; right:0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--green), transparent);
+    }
+    .submit-steps {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin: 28px 0;
+      flex-wrap: wrap;
+    }
+    .submit-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-ui);
+      font-size: 0.75rem;
+      letter-spacing: 0.06em;
+      color: var(--silver-dim);
+      max-width: 140px;
+      text-align: center;
+    }
+    .submit-step-icon {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: var(--bg-2);
+      border: 1px solid var(--border-g);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+    }
+
+    /* Resource list */
+    .resource-categories {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 40px;
+    }
+    .resource-category {
+      background: var(--bg-card);
+      border: 1px solid var(--border-p);
+      border-radius: 8px;
+      overflow: hidden;
+      transition: all 0.3s;
+    }
+    .resource-category:hover { border-color: var(--purple-light); }
+    .resource-cat-header {
+      padding: 18px 22px;
+      background: var(--bg-2);
+      border-bottom: 1px solid var(--border-p);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .resource-cat-header h4 { color: var(--white); font-size: 0.9rem; }
+    .resource-list { padding: 16px 22px; display: flex; flex-direction: column; gap: 2px; }
+    .resource-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(123,94,167,0.08);
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .resource-item:last-child { border-bottom: none; }
+    .resource-item:hover .resource-name { color: var(--green); }
+    .resource-item:hover .resource-arrow { color: var(--green); transform: translateX(3px); }
+    .resource-name {
+      font-size: 0.85rem;
+      color: var(--silver);
+      transition: color 0.2s;
+    }
+    .resource-desc {
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+    .resource-arrow {
+      font-size: 0.8rem;
+      color: var(--muted);
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+    .resource-add {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 0;
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-family: var(--font-ui);
+      letter-spacing: 0.06em;
+      font-style: italic;
+    }
+
+    /* Giveaway teaser in community */
+    .community-giveaway {
+      background: linear-gradient(135deg, rgba(74,222,128,0.06), rgba(123,94,167,0.06));
+      border: 1px solid var(--border-g);
+      border-radius: 10px;
+      padding: 48px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 40px;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .community-giveaway::before {
+      content: '🎁';
+      position: absolute;
+      right: -20px; top: -20px;
+      font-size: 8rem;
+      opacity: 0.05;
+      pointer-events: none;
+    }
+
+    @media (max-width: 1024px) {
+      .fanart-grid { grid-template-columns: repeat(3, 1fr); }
+      .resource-categories { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 768px) {
+      .community-welcome-inner { grid-template-columns: 1fr; }
+      .welcome-emoji-stack { display: none; }
+      .fanart-grid { grid-template-columns: repeat(2, 1fr); }
+      .resource-categories { grid-template-columns: 1fr; }
+      .community-giveaway { grid-template-columns: 1fr; text-align: center; }
+      .community-welcome { padding: 28px 24px; }
+      .fanart-submit-box { padding: 28px 20px; }
+    }
+    @media (max-width: 480px) {
+      .fanart-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="site-nav" id="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-soma">SOMA</span>
+        <span class="logo-industries">Industries LLC</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="giveaways.html">Giveaways</a></li>
+        <li><a href="community.html">Community</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="content.html">Content</a></li>
+        <li><a href="contact.html" class="nav-cta">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Page Hero -->
+  <section class="page-hero section-sm">
+    <div class="hex-bg"></div>
+    <div class="container page-hero-content">
+      <span class="section-label">You Belong Here</span>
+      <h1>The <span class="glow-purple">Community</span></h1>
+      <div class="divider"></div>
+      <p style="max-width:580px; font-size:1.05rem;">
+        A space built specifically for Black nerds — anime fans, gamers, manga readers, 
+        sci-fi lovers, tabletop players, and everyone in between. Your culture is celebrated here.
+      </p>
+    </div>
+  </section>
+
+  <!-- Main content -->
+  <section class="section" style="background:var(--bg-0); padding-top:40px;">
+    <div class="container">
+
+      <!-- Welcome banner -->
+      <div class="community-welcome reveal">
+        <div class="community-welcome-inner">
+          <div>
+            <span class="section-label">Welcome, Fam</span>
+            <h2>Black Nerds, <span class="glow-green">This One's For You.</span></h2>
+            <p style="max-width:600px; margin-top:12px;">
+              This community exists because representation matters — even in the spaces we 
+              love most. Whether you grew up watching Toonami alone or were the only one 
+              in the room who knew what a Pokémon EV was, you've found your people.
+              Pull up. You're home.
+            </p>
+            <div class="welcome-vibes">
+              <span class="vibe-tag">⚔️ Shonen Heads</span>
+              <span class="vibe-tag">🃏 TCG Players</span>
+              <span class="vibe-tag">🎮 Gamers</span>
+              <span class="vibe-tag">📚 Manga Readers</span>
+              <span class="vibe-tag">🚀 Sci-Fi Fans</span>
+              <span class="vibe-tag">🐉 Fantasy Lovers</span>
+              <span class="vibe-tag">🦸 Comic Heads</span>
+              <span class="vibe-tag">🎲 Tabletop Nerds</span>
+              <span class="vibe-tag">🌌 All of the above</span>
+            </div>
+          </div>
+          <div class="welcome-emoji-stack">
+            🦾<br>⛩️<br>🃏<br>🎮
+          </div>
+        </div>
+      </div>
+
+      <!-- Giveaway Teaser -->
+      <div class="community-giveaway reveal" style="margin-bottom:80px;">
+        <div>
+          <span class="section-label">Active Now</span>
+          <h2 style="margin-bottom:12px;">Current <span class="glow-green">Giveaway</span></h2>
+          <p style="margin-bottom:20px;">
+            This month's giveaway is live. Enter for a chance to win a prize bundle 
+            featuring a Black-owned small business product alongside nerd culture picks 
+            from Soma. Multiple ways to earn entries — every action counts.
+          </p>
+          <div style="display:flex; gap:12px; flex-wrap:wrap;">
+            <a href="giveaways.html" class="btn btn-primary">Enter Now 🎁</a>
+            <a href="giveaways.html" class="btn btn-ghost">See Prize Details →</a>
+          </div>
+        </div>
+        <div style="text-align:center; flex-shrink:0;">
+          <div style="
+            font-family: var(--font-ui);
+            font-size:0.65rem; font-weight:700;
+            letter-spacing:0.18em; text-transform:uppercase;
+            color:var(--green); margin-bottom:8px;
+          ">Prize Pool Includes</div>
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <div class="ss-feature"><span class="ss-feature-icon">🃏</span> Pokémon Cards</div>
+            <div class="ss-feature"><span class="ss-feature-icon">📚</span> Manga Set</div>
+            <div class="ss-feature"><span class="ss-feature-icon">🏪</span> Business Product</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Fan Art & Creative Submissions -->
+  <section class="section" style="background:var(--bg-1);">
+    <div class="container">
+
+      <div class="reveal">
+        <span class="section-label">Creative Spotlight</span>
+        <h2>Fan Art &amp; <span class="glow-purple">Community Work</span></h2>
+        <div class="divider"></div>
+        <p style="max-width:600px;">
+          Got art to share? Creations, fan works, digital pieces, original characters — 
+          anything from the culture is welcome here. Submit your work and get featured 
+          on the site and across the stream.
+        </p>
+      </div>
+
+      <!-- Art gallery grid -->
+      <div class="fanart-grid reveal">
+        <!-- Filled slots — replace src with real submissions -->
+        <div class="fanart-card empty">
+          <span class="fanart-placeholder-icon">🎨</span>
+          <span class="fanart-placeholder-text">First submission</span>
+        </div>
+        <div class="fanart-card empty">
+          <span class="fanart-placeholder-icon">✍️</span>
+          <span class="fanart-placeholder-text">Your art here</span>
+        </div>
+        <div class="fanart-card empty">
+          <span class="fanart-placeholder-icon">🖼️</span>
+          <span class="fanart-placeholder-text">Submit yours</span>
+        </div>
+        <div class="fanart-card empty">
+          <span class="fanart-placeholder-icon">🌟</span>
+          <span class="fanart-placeholder-text">Be featured</span>
+        </div>
+        <div class="fanart-card empty">
+          <span class="fanart-placeholder-icon">🎨</span>
+          <span class="fanart-placeholder-text">All styles welcome</span>
+        </div>
+        <div class="fanart-card empty">
+          <span class="fanart-placeholder-icon">✨</span>
+          <span class="fanart-placeholder-text">More coming</span>
+        </div>
+        <div class="fanart-card empty">
+          <span class="fanart-placeholder-icon">🎭</span>
+          <span class="fanart-placeholder-text">OCs welcome</span>
+        </div>
+        <div class="fanart-card empty">
+          <span class="fanart-placeholder-icon">🖌️</span>
+          <span class="fanart-placeholder-text">Fan works too</span>
+        </div>
+      </div>
+
+      <!-- Submission box -->
+      <div class="fanart-submit-box reveal">
+        <span class="section-label" style="justify-content:center;">Submit Your Work</span>
+        <h3 style="color:var(--white); margin-bottom:10px;">Want to be featured here?</h3>
+        <p style="max-width:500px; margin:0 auto; color:var(--silver-dim); font-size:0.9rem;">
+          Send your art, digital work, or creative piece to be featured in the gallery 
+          and spotlighted during a stream. No gatekeeping — all skill levels, all styles, all welcome.
+        </p>
+
+        <div class="submit-steps">
+          <div class="submit-step">
+            <div class="submit-step-icon">📸</div>
+            <span>Create or photograph your work</span>
+          </div>
+          <div class="submit-step">
+            <div class="submit-step-icon">📧</div>
+            <span>Send it to the contact page</span>
+          </div>
+          <div class="submit-step">
+            <div class="submit-step-icon">🌟</div>
+            <span>Get featured on site &amp; stream</span>
+          </div>
+        </div>
+
+        <a href="contact.html" class="btn btn-green">Submit Your Work →</a>
+        <p style="font-size:0.72rem; color:var(--muted); margin-top:14px;">
+          By submitting, you confirm this is your original work or you have rights to share it.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Black Nerd Resource List -->
+  <section class="section" style="background:var(--bg-0);">
+    <div class="container">
+
+      <div class="reveal">
+        <span class="section-label">The List</span>
+        <h2>Black Nerd <span class="glow-green">Resources</span></h2>
+        <div class="divider"></div>
+        <p style="max-width:640px;">
+          Black-owned shops, nerd spaces, Discord servers, and communities worth knowing. 
+          This list is community-maintained — if you know a spot that belongs here, 
+          <a href="contact.html" style="color:var(--purple-light);">let us know</a>.
+        </p>
+      </div>
+
+      <div class="resource-categories reveal">
+
+        <!-- Black-Owned Shops -->
+        <div class="resource-category">
+          <div class="resource-cat-header">
+            <span style="font-size:1.2rem;">🛍️</span>
+            <h4>Black-Owned Nerd Shops</h4>
+          </div>
+          <div class="resource-list">
+            <a href="#" class="resource-item">
+              <div>
+                <div class="resource-name">Black Nerd Problems</div>
+                <div class="resource-desc">Culture, media, nerd commentary</div>
+              </div>
+              <span class="resource-arrow">→</span>
+            </a>
+            <a href="#" class="resource-item">
+              <div>
+                <div class="resource-name">Sankofa Reads</div>
+                <div class="resource-desc">Black-owned bookstore with manga & comics</div>
+              </div>
+              <span class="resource-arrow">→</span>
+            </a>
+            <a href="#" class="resource-item">
+              <div>
+                <div class="resource-name">TBD — Submit a shop</div>
+                <div class="resource-desc">Know a great one?</div>
+              </div>
+              <span class="resource-arrow">→</span>
+            </a>
+            <div class="resource-add">
+              + <a href="contact.html" style="color:var(--purple-light); margin-left:4px;">Suggest a shop</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Community Servers -->
+        <div class="resource-category">
+          <div class="resource-cat-header">
+            <span style="font-size:1.2rem;">💬</span>
+            <h4>Community Spaces</h4>
+          </div>
+          <div class="resource-list">
+            <a href="#" class="resource-item">
+              <div>
+                <div class="resource-name">Soma Industries Discord</div>
+                <div class="resource-desc">Our own community server</div>
+              </div>
+              <span class="resource-arrow">→</span>
+            </a>
+            <a href="#" class="resource-item">
+              <div>
+                <div class="resource-name">Black Girl Gamers</div>
+                <div class="resource-desc">Safe space for Black women in gaming</div>
+              </div>
+              <span class="resource-arrow">→</span>
+            </a>
+            <a href="#" class="resource-item">
+              <div>
+                <div class="resource-name">Melanin Base Camp</div>
+                <div class="resource-desc">Black nerd & tabletop gaming community</div>
+              </div>
+              <span class="resource-arrow">→</span>
+            </a>
+            <div class="resource-add">
+              + <a href="contact.html" style="color:var(--purple-light); margin-left:4px;">Suggest a server</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Creators to Follow -->
+        <div class="resource-category">
+          <div class="resource-cat-header">
+            <span style="font-size:1.2rem;">🎥</span>
+            <h4>Creators to Watch</h4>
+          </div>
+          <div class="resource-list">
+            <a href="#" class="resource-item">
+              <div>
+                <div class="resource-name">Add a creator here</div>
+                <div class="resource-desc">Black nerd YouTubers, streamers & more</div>
+              </div>
+              <span class="resource-arrow">→</span>
+            </a>
+            <a href="#" class="resource-item">
+              <div>
+                <div class="resource-name">More coming</div>
+                <div class="resource-desc">List grows with the community</div>
+              </div>
+              <span class="resource-arrow">→</span>
+            </a>
+            <div class="resource-add">
+              + <a href="contact.html" style="color:var(--purple-light); margin-left:4px;">Suggest a creator</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Anime / Manga Resources -->
+        <div class="resource-category">
+          <div class="resource-cat-header">
+            <span style="font-size:1.2rem;">⛩️</span>
+            <h4>Anime &amp; Manga</h4>
+          </div>
+          <div class="resource-list">
+            <a href="https://myanimelist.net" target="_blank" rel="noopener" class="resource-item">
+              <div>
+                <div class="resource-name">MyAnimeList</div>
+                <div class="resource-desc">Track, rate, and discover anime/manga</div>
+              </div>
+              <span class="resource-arrow">→</span>
+            </a>
+            <a href="https://anilist.co" target="_blank" rel="noopener" class="resource-item">
+              <div>
+                <div class="resource-name">AniList</div>
+                <div class="resource-desc">Modern tracking with community features</div>
+              </div>
+              <span class="resource-arrow">→</span>
+            </a>
+            <a href="#" class="resource-item">
+              <div>
+                <div class="resource-name">Black Anime Fan groups</div>
+                <div class="resource-desc">Submit a group to be listed</div>
+              </div>
+              <span class="resource-arrow">→</span>
+            </a>
+            <div class="resource-add">
+              + <a href="contact.html" style="color:var(--purple-light); margin-left:4px;">Suggest a resource</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Gaming -->
+        <div class="resource-category">
+          <div class="resource-cat-header">
+            <span style="font-size:1.2rem;">🎮</span>
+            <h4>Gaming</h4>
+          </div>
+          <div class="resource-list">
+            <a href="#" class="resource-item">
+              <div>
+                <div class="resource-name">Black Gamers Matter</div>
+                <div class="resource-desc">Community advocacy & gaming events</div>
+              </div>
+              <span class="resource-arrow">→</span>
+            </a>
+            <a href="#" class="resource-item">
+              <div>
+                <div class="resource-name">Controllers &amp; Community</div>
+                <div class="resource-desc">Black gaming Discord community</div>
+              </div>
+              <span class="resource-arrow">→</span>
+            </a>
+            <div class="resource-add">
+              + <a href="contact.html" style="color:var(--purple-light); margin-left:4px;">Suggest a resource</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- TCG / Tabletop -->
+        <div class="resource-category">
+          <div class="resource-cat-header">
+            <span style="font-size:1.2rem;">🃏</span>
+            <h4>TCG &amp; Tabletop</h4>
+          </div>
+          <div class="resource-list">
+            <a href="#" class="resource-item">
+              <div>
+                <div class="resource-name">Black D&amp;D Players Unite</div>
+                <div class="resource-desc">Tabletop RPG community spaces</div>
+              </div>
+              <span class="resource-arrow">→</span>
+            </a>
+            <a href="#" class="resource-item">
+              <div>
+                <div class="resource-name">Pokémon TCG groups</div>
+                <div class="resource-desc">Black collector & player communities</div>
+              </div>
+              <span class="resource-arrow">→</span>
+            </a>
+            <div class="resource-add">
+              + <a href="contact.html" style="color:var(--purple-light); margin-left:4px;">Suggest a resource</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div style="
+        margin-top:36px; padding:22px 28px;
+        background:var(--bg-card); border:1px solid var(--border-p); border-radius:8px;
+        display:flex; align-items:center; gap:16px; flex-wrap:wrap;
+        justify-content:space-between;
+      " class="reveal">
+        <div>
+          <h4 style="color:var(--white); margin-bottom:4px;">Know a spot that belongs on this list?</h4>
+          <p style="font-size:0.85rem; color:var(--silver-dim);">This resource list grows with the community. Submit a shop, server, or creator and we'll add it.</p>
+        </div>
+        <a href="contact.html" class="btn btn-ghost" style="flex-shrink:0;">Submit a Resource →</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-strip">
+    <div class="container">
+      <h2>Black nerd &amp; building something?</h2>
+      <p>Whether it's a business, a creative project, or a community — Soma Industries wants to help you put it on.</p>
+      <div style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap;">
+        <a href="contact.html" class="btn btn-primary">Get in Touch →</a>
+        <a href="giveaways.html" class="btn btn-green">Enter the Giveaway 🎁</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="nav-logo" style="display:inline-flex;">
+            <span class="logo-soma">SOMA</span>
+            <span class="logo-industries">Industries LLC</span>
+          </a>
+          <p>Empowering Black businesses and building a community through Faith.</p>
+          <div class="footer-faith">Built on Faith. Driven by Purpose.</div>
+        </div>
+        <div class="footer-col">
+          <h4>Navigate</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="giveaways.html">Giveaways</a></li>
+            <li><a href="community.html">Community</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="content.html">Content Hub</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Community</h4>
+          <ul>
+            <li><a href="community.html">Fan Art Submissions</a></li>
+            <li><a href="community.html">Black Nerd Resources</a></li>
+            <li><a href="giveaways.html">Enter Giveaway</a></li>
+            <li><a href="contact.html">Submit a Resource</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Connect</h4>
+          <div class="footer-socials">
+            <a href="https://www.youtube.com/@HailKingSoma" target="_blank" rel="noopener" class="social-btn" title="YouTube">YT</a>
+            <a href="https://www.twitch.tv/hailkingsoma" target="_blank" rel="noopener" class="social-btn" title="Twitch">TW</a>
+            <a href="https://bsky.app/profile/somacorp.co" target="_blank" rel="noopener" class="social-btn" title="Bluesky">BSky</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2025 Soma Industries LLC. All rights reserved.</span>
+        <span style="color:var(--muted);">✝ Phil. 4:13</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="nav.js"></script>
+</body>
+</html>
