@@ -80,17 +80,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  /* ---- Form submission prevention (placeholder) ---- */
-  document.querySelectorAll('form').forEach(form => {
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      const btn = form.querySelector('button[type="submit"]');
-      if (btn) {
-        btn.textContent = 'Message Sent ✓';
-        btn.style.background = 'var(--green-dim)';
-        btn.disabled = true;
-      }
-    });
-  });
+  /* ---- Form handling note ----
+     Form submissions are handled by Formspree via the @formspree/ajax library.
+     See contact.html for the integration script.
+     Other forms (services inquiry, etc.) currently fall back to default behavior
+     and can be wired to Formspree later if needed.
+  */
 
 });

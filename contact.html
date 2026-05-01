@@ -100,26 +100,46 @@
           <h3 style="color:var(--white); margin-bottom:6px;">Send a Message</h3>
           <p style="font-size:0.85rem; margin-bottom:28px;">Fill out the form and I'll be in touch shortly.</p>
 
-          <form>
+          <!-- Success / Error messages -->
+          <div data-fs-success style="
+            display:none;
+            padding:20px 24px; margin-bottom:20px;
+            background:rgba(74,222,128,0.1); border:1px solid var(--green);
+            border-radius:6px; color:var(--green);
+            font-family:var(--font-ui); font-size:0.9rem;
+          ">
+            ✓ Message sent! I'll get back to you within 48 hours.
+          </div>
+          <div data-fs-error style="
+            display:none;
+            padding:16px 20px; margin-bottom:20px;
+            background:rgba(255,68,68,0.1); border:1px solid rgba(255,68,68,0.4);
+            border-radius:6px; color:#FF6B6B;
+            font-family:var(--font-ui); font-size:0.85rem;
+          "></div>
+
+          <form id="contact-form" action="https://formspree.io/f/xaqvyavo" method="POST">
             <div class="form-row">
               <div class="form-group">
                 <label for="c-name">Full Name *</label>
-                <input type="text" id="c-name" placeholder="Your name" required />
+                <input type="text" id="c-name" name="name" placeholder="Your name" required data-fs-field />
+                <span data-fs-error="name" style="color:#FF6B6B; font-size:0.78rem;"></span>
               </div>
               <div class="form-group">
                 <label for="c-email">Email Address *</label>
-                <input type="email" id="c-email" placeholder="you@yourbusiness.com" required />
+                <input type="email" id="c-email" name="email" placeholder="you@yourbusiness.com" required data-fs-field />
+                <span data-fs-error="email" style="color:#FF6B6B; font-size:0.78rem;"></span>
               </div>
             </div>
 
             <div class="form-group">
               <label for="c-business">Business Name</label>
-              <input type="text" id="c-business" placeholder="Your business (if applicable)" />
+              <input type="text" id="c-business" name="business" placeholder="Your business (if applicable)" />
             </div>
 
             <div class="form-group">
               <label for="c-reason">Reason for Contact *</label>
-              <select id="c-reason" required>
+              <select id="c-reason" name="reason" required data-fs-field>
                 <option value="">Select a reason...</option>
                 <option>Brand Identity Project</option>
                 <option>Website Development</option>
@@ -133,7 +153,7 @@
 
             <div class="form-group">
               <label for="c-timeline">Project Timeline</label>
-              <select id="c-timeline">
+              <select id="c-timeline" name="timeline">
                 <option value="">When do you need this?</option>
                 <option>ASAP (under 2 weeks)</option>
                 <option>1 month</option>
@@ -145,7 +165,7 @@
 
             <div class="form-group">
               <label for="c-budget">Budget Range</label>
-              <select id="c-budget">
+              <select id="c-budget" name="budget">
                 <option value="">Select a range...</option>
                 <option>Under $500</option>
                 <option>$500 – $1,000</option>
@@ -157,27 +177,35 @@
 
             <div class="form-group">
               <label for="c-message">Message *</label>
-              <textarea id="c-message" placeholder="Tell me about your business, your goals, and what you're looking for..." required></textarea>
+              <textarea id="c-message" name="message" placeholder="Tell me about your business, your goals, and what you're looking for..." required data-fs-field></textarea>
+              <span data-fs-error="message" style="color:#FF6B6B; font-size:0.78rem;"></span>
             </div>
 
             <div class="form-group" style="display:flex; align-items:flex-start; gap:12px;">
-              <input type="checkbox" id="c-newsletter" style="width:auto; margin-top:3px; accent-color:var(--purple);" />
+              <input type="checkbox" id="c-newsletter" name="newsletter" value="yes" style="width:auto; margin-top:3px; accent-color:var(--purple);" />
               <label for="c-newsletter" style="font-size:0.82rem; text-transform:none; letter-spacing:0; color:var(--silver-dim); cursor:pointer;">
                 Keep me updated on Strong Stewards app development and Soma Industries news
               </label>
             </div>
 
-            <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center; margin-top:8px;">
+            <button type="submit" data-fs-submit-btn class="btn btn-primary" style="width:100%; justify-content:center; margin-top:8px;">
               Send Message →
             </button>
           </form>
+
+          <!-- Formspree AJAX integration -->
+          <script>
+            window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
+            formspree('initForm', { formElement: '#contact-form', formId: 'xaqvyavo' });
+          </script>
+          <script src="https://unpkg.com/@formspree/ajax@1" defer></script>
         </div>
 
       </div>
     </div>
   </section>
 
-  <!-- FAQ -->
+  <!-- FAQ — hidden for now, uncomment to restore
   <section class="section" style="background:var(--bg-1);">
     <div class="container">
       <div class="reveal" style="margin-bottom:44px;">
@@ -221,6 +249,7 @@
       </div>
     </div>
   </section>
+  -->
 
   <footer class="site-footer">
     <div class="container">
